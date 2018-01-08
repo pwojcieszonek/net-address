@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Ruby library for network addresses}
   spec.description   = %q{Net::Address is a Ruby library designed to make manipulation of network addresses such as MAC, IPv4, Netmask.}
-  spec.homepage      = "https://github.com/pwojcieszonek/net-address."
+  spec.homepage      = "https://github.com/pwojcieszonek/net-address"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
