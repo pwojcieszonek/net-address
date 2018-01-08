@@ -3,6 +3,7 @@
 # Copyright 03.01.2018 by Piotr Wojcieszonek
 
 require 'net/address/mask'
+require 'ipaddr'
 
 module Net
   module Address
@@ -74,6 +75,8 @@ module Net
           when self.class
             @address = address.to_i
             @mask = address.mask
+          when IPAddr
+            @address = address.to_i
           when Integer
             parse_integer(address)
           when String

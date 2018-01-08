@@ -3,6 +3,7 @@
 # Copyright 03.01.2018 by Piotr Wojcieszonek
 
 require_relative '../../spec_helper'
+require 'ipaddr'
 
 RSpec.describe Net::Address::IPv4 do
 
@@ -18,6 +19,7 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new(167772161, '255.255.255.0')).to be_kind_of Net::Address::IPv4
       expect(Net::Address::IPv4.new(167772161, '255.255.255.255')).to be_kind_of Net::Address::IPv4
       expect(Net::Address::IPv4.new(Net::Address::IPv4.new('10.0.0.1'))).to be_kind_of Net::Address::IPv4
+      expect(Net::Address::IPv4.new(IPAddr.new('10.0.0.1'))).to be_kind_of Net::Address::IPv4
     end
     it 'should raise ArgumentError when mask given multiple times' do
       expect{Net::Address::IPv4.new('10.0.0.1/24', 24)}.to raise_exception(ArgumentError)
@@ -90,6 +92,7 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new('10.0.0.1/24')).to eq('10.0.0.1/24')
       expect(Net::Address::IPv4.new('10.0.0.1/24')).to eq(Net::Address::IPv4.new('10.0.0.1'))
       expect(Net::Address::IPv4.new('10.0.0.1/24')).to eq(Net::Address::IPv4.new('10.0.0.1/24'))
+      expect(Net::Address::IPv4.new(IPAddr.new('10.0.0.1'))).to eq('10.0.0.1')
     end
   end
 
@@ -105,6 +108,7 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new('10.0.0.2/24')).not_to eq('10.0.0.1/24')
       expect(Net::Address::IPv4.new('10.0.0.2/24')).not_to eq(Net::Address::IPv4.new('10.0.0.1'))
       expect(Net::Address::IPv4.new('10.0.0.2/24')).not_to eq(Net::Address::IPv4.new('10.0.0.1/24'))
+      expect(Net::Address::IPv4.new(IPAddr.new('10.0.0.2'))).not_to eq('10.0.0.1')
     end
   end
 
@@ -120,6 +124,7 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new('10.0.0.0/24')).to be < '10.0.0.1/24'
       expect(Net::Address::IPv4.new('10.0.0.0/24')).to be < Net::Address::IPv4.new('10.0.0.1')
       expect(Net::Address::IPv4.new('10.0.0.0/24')).to be < Net::Address::IPv4.new('10.0.0.1/24')
+      expect(Net::Address::IPv4.new(IPAddr.new('10.0.0.0'))).to be < '10.0.0.1'
     end
   end
 
@@ -135,6 +140,7 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new('10.0.0.3/24')).to be > '10.0.0.1/24'
       expect(Net::Address::IPv4.new('10.0.0.3/24')).to be > Net::Address::IPv4.new('10.0.0.1')
       expect(Net::Address::IPv4.new('10.0.0.3/24')).to be > Net::Address::IPv4.new('10.0.0.1/24')
+      expect(Net::Address::IPv4.new(IPAddr.new('10.0.0.3'))).to be > '10.0.0.1'
     end
   end
 
