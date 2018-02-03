@@ -71,18 +71,17 @@ module Net
       private
 
       def parse_address(address)
-        case address
-          when self.class
-            @address = address.to_i
-            @mask = address.mask
-          when IPAddr
-            @address = address.to_i
-          when Integer
-            parse_integer(address)
-          when String
-            parse_string(address)
-          else
-            raise ArgumentError, "No implicit conversion of #{address.class.name} to #{self.class.name}"
+        if address.kind_of?(self.class)
+          @address = address.to_i
+          @mask = address.mask
+        elsif address.kind_of?(IPAddr)
+          @address = address.to_i
+        elsif address.kind_of?(Integer)
+          parse_integer(address)
+        elsif address.kind_of?(String)
+          parse_string(address)
+        else
+          raise ArgumentError, "No implicit conversion of #{address.class.name} to #{self.class.name}"
         end
       end
 
