@@ -71,7 +71,7 @@ module Net
       private
 
       def parse_address(address)
-        if address.kind_of?(self.class)
+        if address.kind_of?(Net::Address::IPv4)
           @address = address.to_i
           @mask = address.mask
         elsif address.kind_of?(IPAddr)
@@ -86,6 +86,7 @@ module Net
       end
 
       def parse_string(address)
+        address = address.strip
         match_data = address.match(/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\/?(\d{1,2})*$/)
         raise ArgumentError,"No valid IPv4 address #{address}" if match_data.nil?
         @address = match_data[1].split(/\./).map{|c| c.to_i}.pack('C*').unpack('N').first
