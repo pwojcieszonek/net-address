@@ -19,7 +19,7 @@ module Net
           when Array
             @mac_address = mac_address.join.hex
           else
-            raise ArgumentError, "No implicit conversion of #{mac_address.class.name} into #{self.name}"
+            raise ArgumentError, "No implicit conversion of #{mac_address.class.name} into #{self.class.name}"
         end
         raise ArgumentError, "MAC Address out of range #{mac_address}" if @mac_address.to_i < 0 or @mac_address.to_i > 0xffffffffffff
       end
