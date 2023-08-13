@@ -4,6 +4,7 @@
 
 require 'net/address/mask'
 require 'ipaddr'
+require 'json'
 
 module Net
   module Address
@@ -30,8 +31,24 @@ module Net
         "#{to_s}/#{mask.to_cidr}"
       end
 
+      alias to_cidr to_str
+
       def to_i
         @address
+      end
+
+      def to_h
+        {
+          address: self.to_s,
+          mask: self.mask.to_s,
+          net: self.net.to_s,
+          broadcast: self.broadcast.to_s,
+          cidr: self.to_cidr
+        }
+      end
+
+      def to_json
+        to_h.to_json
       end
 
       def <=>(other)

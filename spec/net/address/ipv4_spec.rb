@@ -4,6 +4,7 @@
 
 require_relative '../../spec_helper'
 require 'ipaddr'
+require 'json'
 
 RSpec.describe Net::Address::IPv4 do
 
@@ -53,6 +54,16 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new(167772161).to_str).to eq('10.0.0.1/32')
       expect(Net::Address::IPv4.new(167772161, 24).to_str).to eq('10.0.0.1/24')
       expect(Net::Address::IPv4.new(167772161, '255.255.255.0').to_str).to eq('10.0.0.1/24')
+    end
+  end
+
+  context '.to_json' do
+    it 'should return JSON representation of IPv4 address object' do
+      expect(JSON.parse(Net::Address::IPv4.new('10.0.0.1/24').to_json)['address']).to eq('10.0.0.1')
+      expect(JSON.parse(Net::Address::IPv4.new('10.0.0.1/24').to_json)['mask']).to eq('255.255.255.0')
+      expect(JSON.parse(Net::Address::IPv4.new('10.0.0.1/24').to_json)['net']).to eq('10.0.0.0')
+      expect(JSON.parse(Net::Address::IPv4.new('10.0.0.1/24').to_json)['broadcast']).to eq('10.0.0.255')
+      expect(JSON.parse(Net::Address::IPv4.new('10.0.0.1/24').to_json)['cidr']).to eq('10.0.0.1/24')
     end
   end
 
