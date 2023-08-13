@@ -47,7 +47,7 @@ module Net
         }
       end
 
-      def to_json
+      def to_json(*params)
         to_h.to_json
       end
 
