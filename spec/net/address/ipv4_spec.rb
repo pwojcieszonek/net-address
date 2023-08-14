@@ -42,6 +42,10 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new(167772161).to_s).to eq('10.0.0.1')
       expect(Net::Address::IPv4.new(167772161, 24).to_s).to eq('10.0.0.1')
       expect(Net::Address::IPv4.new(167772161, '255.255.255.0').to_s).to eq('10.0.0.1')
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1'}).to_s).to eq('10.0.0.1')
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1', 'mask' => '255.255.255.0'}).to_s).to eq('10.0.0.1')
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1'}.to_json).to_s).to eq('10.0.0.1')
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1', 'mask' => '255.255.255.0'}.to_json).to_s).to eq('10.0.0.1')
     end
   end
 
@@ -67,6 +71,15 @@ RSpec.describe Net::Address::IPv4 do
     end
   end
 
+  context '.from_json' do
+    it 'should return Net::Address::IPv4 when valid JSON  given' do
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1'})).to be_kind_of Net::Address::IPv4
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1'}.to_json)).to be_kind_of Net::Address::IPv4
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1', 'mask' => '255.255.255.0'})).to be_kind_of Net::Address::IPv4
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1', 'mask' => '255.255.255.0'}.to_json)).to be_kind_of Net::Address::IPv4
+    end
+  end
+
   context '.to_i' do
     it 'should return integer representation of IPv4 address' do
       expect(Net::Address::IPv4.new('10.0.0.1').to_i).to eq(167772161)
@@ -88,6 +101,8 @@ RSpec.describe Net::Address::IPv4 do
       expect(Net::Address::IPv4.new(167772161).mask).to be_kind_of Net::Address::Mask
       expect(Net::Address::IPv4.new(167772161, 24).mask).to be_kind_of Net::Address::Mask
       expect(Net::Address::IPv4.new(167772161, '255.255.255.0').mask).to be_kind_of Net::Address::Mask
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1'}.to_json).mask).to be_kind_of Net::Address::Mask
+      expect(Net::Address::IPv4.new({'address' => '10.0.0.1', 'mask' => '255.255.255.0'}.to_json).mask).to be_kind_of Net::Address::Mask
     end
   end
 

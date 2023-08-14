@@ -15,6 +15,13 @@ module Net
       attr_reader :mask
 
       def initialize(address, mask=nil)
+        if address.is_a?(String)
+          address = begin
+                      JSON.parse address
+                    rescue JSON::ParserError
+                      address
+                    end
+        end
         parse_address(address)
         if @mask.nil?
           @mask = Net::Address::Mask.new(mask.nil? ? 32 : mask)
@@ -88,7 +95,10 @@ module Net
       private
 
       def parse_address(address)
-        if address.kind_of?(Net::Address::IPv4)
+        if address.kind_of?(Hash)
+          parse_string(address['address'])
+          @mask = Net::Address::Mask.new address['mask']
+        elsif address.kind_of?(Net::Address::IPv4)
           @address = address.to_i
           @mask = address.mask
         elsif address.kind_of?(IPAddr)
