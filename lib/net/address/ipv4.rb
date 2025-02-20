@@ -96,8 +96,9 @@ module Net
 
       def parse_address(address)
         if address.kind_of?(Hash)
-          parse_string(address['address'])
-          @mask = Net::Address::Mask.new address['mask']
+          address = JSON.parse(address.to_json, symbolize_names: true) if address.respond_to?(:to_json)
+          parse_string(address[:address])
+          @mask = Net::Address::Mask.new address[:mask]
         elsif address.kind_of?(Net::Address::IPv4)
           @address = address.to_i
           @mask = address.mask
